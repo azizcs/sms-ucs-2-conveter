@@ -32,35 +32,39 @@
 
 				<form class="contact100-form validate-form">
 					<span class="contact100-form-title">
-						Get in touch
+						Send SMS
 					</span>
 
-					<div class="wrap-input100 validate-input" data-validate = "Name is required">
-						<input class="input100" type="text" name="name" placeholder="Name">
+					<div class="wrap-input100 validate-input" data-validate = "Phone number is required">
+						<input class="input100" type="trel" name="name" placeholder="Phone number" >
 						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-user" aria-hidden="true"></i>
-						</span>
 					</div>
 
-					<div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input100" type="text" name="email" placeholder="Email">
+					<div class="wrap-input100 validate-input" >
+						<input class="input100" type="text" name="title" value="SANL SANTRAL" readonly>
 						<span class="focus-input100"></span>
-						<span class="symbol-input100">
-							<i class="fa fa-envelope" aria-hidden="true"></i>
-						</span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Message is required">
-						<textarea class="input100" name="message" placeholder="Message"></textarea>
+						<textarea id="sms" class="input100" name="message" placeholder="Message"></textarea>
 						<span class="focus-input100"></span>
 					</div>
+					
+					<div id="charactersRemaining"> </div>
 
 					<div class="container-contact100-form-btn">
-						<button class="contact100-form-btn">
-							Send
+						<button class="contact100-form-btn" onClick="convert();">
+							Convert
 						</button>
 					</div>
+
+					<div >
+						<input class="input100" type="text" name="result" id="result" placeholder="characters's bits" >
+						<span class="focus-input100"></span>
+					</div>
+					<label>Number of bits:</label>
+					<div id="charactersContains" ></div>
+
 				</form>
 			</div>
 		</div>
@@ -88,6 +92,43 @@
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+<script type="text/javascript">
+	var el;  
+	function convert(e) {
+	  var output = document.getElementById("result");
+	  var input = document.getElementById("sms").value;
+	  var chartBits = 0;
+	  let nbOfBıtsPerMessage = 0;
+	  let b_16Counter = 0;
+	  output.value = "";
+
+	  for (var i = 0; i < input.length; i++) {
+	      totalBitsNb = input[i].charCodeAt(0).toString(2);
+	      output.value += totalBitsNb;
+	      countRemaining = document.getElementById('charactersContains'); 
+	      
+	      if(totalBitsNb.length > 7) {
+      		q = 16 - totalBitsNb.length;
+	     	chartBits = chartBits + totalBitsNb.length + q;
+	     	b_16Counter +=b_16Counter; 
+	     	//countRemaining.textContent =  chartBits;	      
+	  	}else{
+	  		nbOfBits = document.getElementById("result").value.length; 
+	  		chartBits += totalBitsNb.length;
+			//countRemaining.textContent = chartBits; 
+			
+	  	}
+	  	countRemaining.textContent = chartBits;
+	  }
+
+	  
+	}
+	el = document.getElementById('sms');                   
+	el.addEventListener('keyup', convert, false);
+
+</script>
+
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
