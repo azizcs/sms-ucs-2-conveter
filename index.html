@@ -46,11 +46,11 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Message is required">
-						<textarea id="sms" class="input100" name="message" placeholder="Message"></textarea>
+						<textarea id="sms" class="textarea.sms_message input100" name="message" placeholder="Message"></textarea>
 						<span class="focus-input100"></span>
 					</div>
 					
-					<div id="charactersRemaining"> </div>
+					<div id="charactersRemaining" class="sms_message_count"> </div>
 
 					<div class="container-contact100-form-btn">
 						<button class="contact100-form-btn" onClick="convert();">
@@ -101,6 +101,14 @@
 	  let nbOfBıtsPerMessage = 0;
 	  let b_16Counter = 0;
 	  output.value = "";
+	  $("textarea.sms_message").bind("input keypress keydown keyup blur focus change paste", function(){
+		
+		var count = $(this).val().length;		
+		var total = Math.ceil( parseFloat(count) / 160 );
+		var parent = $(this).parent();
+		parent.find(".sms_message_total").text(total);
+		parent.find(".sms_message_count").text(count);
+	});
 
 	  for (var i = 0; i < input.length; i++) {
 	      totalBitsNb = input[i].charCodeAt(0).toString(2);
